@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         } else if (edtValue2.getText().toString().equals("") || edtValue2.getText() == null) {
             return false;
-        } else if (rgOperators == null) {
+        } else if (rgOperators.getCheckedRadioButtonId() == -1) {
             return false;
         }
 
