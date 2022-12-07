@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,9 +59,15 @@ public class MainActivity extends AppCompatActivity {
         btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Double v1 = Double.parseDouble(edtValue1.getText().toString());
-                Double v2 = Double.parseDouble(edtValue2.getText().toString());
-                insertItem(v1, v2);
+                if(validate()){
+                    Double v1 = Double.parseDouble(edtValue1.getText().toString());
+                    Double v2 = Double.parseDouble(edtValue2.getText().toString());
+                    insertItem(v1, v2);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Inputan salah", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -84,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new Adapter(listHistory,sharedPreferences);
         recHistory.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         recHistory.setLayoutManager(linearLayoutManager);
     }
 
@@ -112,6 +121,18 @@ public class MainActivity extends AppCompatActivity {
 
         txtResult.setText(Double.toString(hasil));
         adapter.notifyDataSetChanged();
+    }
+
+    private  Boolean validate() {
+        if (edtValue1.getText().toString().equals("") || edtValue1.getText() == null) {
+            return false;
+        } else if (edtValue2.getText().toString().equals("") || edtValue2.getText() == null) {
+            return false;
+        } else if (rgOperators == null) {
+            return false;
+        }
+
+        return true;
     }
 
     public void showArray() {
